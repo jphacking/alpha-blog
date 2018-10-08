@@ -1,4 +1,14 @@
 class UsersController < ApplicationController
+  before_action :set_user, only: [:edit, :update, :show, :destroy]
+  
+  def index
+    @article = Article.all
+  end
+  
+  def edit
+     @user = User.find(params[:id])
+  end 
+  
   def new
     @user = User.new
   end 
@@ -11,6 +21,28 @@ class UsersController < ApplicationController
     else
       render 'new'
     end
+  end 
+  
+  def update
+    @user = User.find(params[:id])
+    
+    if @user.update(user_params)
+      flash[:success] = "Your account was updateed successfully"
+      redirect_to articles_path
+    else
+      render 'edit'
+    end
+  end
+  
+  def show
+    
+  end
+  
+  def destroy
+    
+    @user.destroy
+    flash[:danger] = "User was successfully destroyed."
+    redirect_to users_path
   end 
   
   private
